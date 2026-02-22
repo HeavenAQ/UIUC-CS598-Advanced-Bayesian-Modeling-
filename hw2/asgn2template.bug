@@ -1,0 +1,12 @@
+model {
+  for (j in 1:length(psihat)) {
+    psihat[j] ~ dnorm(psi[j], 1/(se[j]^2))
+    psi[j] ~ dnorm(psi0, 1/sigmasq0) 
+  }
+
+  psi0 ~ dnorm(0, 0.000001)
+  sigma0 ~ dunif(0, 1000)
+
+  sigmasq0 <- sigma0^2 
+}
+

@@ -1,0 +1,239 @@
+# Assignment 2
+
+## Problem 1
+
+## a. 
+
+$$
+\begin{align*}
+    &\theta_j \mid \alpha, \beta \sim Beta(\alpha, \beta) \\
+    &\alpha, \beta \sim iid \quad Expon(0.001)
+\end{align*}
+$$
+
+### a.i. Simulate 1000 $(\alpha, \beta)$ pairs and produce a scatter plot of $log(\alpha)$ and $log(\beta)$
+
+```{r}
+alpha <- rexp(1000, 0.001)
+beta <- rexp(1000, 0.001)
+plot(
+    log(alpha), 
+    log(beta), 
+    main="log(alpha) vs. log(beta)", 
+    xlab="log(alpha)", 
+    ylab="log(beta)"
+)
+```
+
+### a.ii. Forward simulate $\theta_1$ and produce a histogram
+
+```{r}
+theta_1 <- rbeta(1000, alpha, beta)
+hist(theta_1, breaks = 30, main="Approximation of Marginal Prior")
+```
+
+## b. 
+
+$$
+\begin{align*}
+    &\theta_j \mid \alpha, \beta \sim Beta(\alpha, \beta) \\
+    &\alpha = \frac{\phi_1}{\phi^2_2} \quad \beta = \frac{(1 - \phi_1)}{\phi_2^2} \\
+    &\phi_1 \sim U(0, 1) \quad \phi_2 \sim Expon(0.001) \\
+\end{align*}
+$$
+
+### b.i.  Independently simulate 1000 pairs $(\alpha, \beta)$ from their hyperprior and produce a scatter plot of $log(\alpha)$ and $log(\beta)$
+
+```{r}
+phi_1 <- runif(1000) 
+phi_2 <- rexp(1000, 0.001)
+alpha <- phi_1 / phi_2^2
+beta <- (1 - phi_1) / phi_2^2
+
+plot(
+    log(alpha), 
+    log(beta), 
+    main="log(alpha) vs. log(beta)", 
+    xlab="log(alpha)", 
+    ylab="log(beta)"
+)
+```
+
+### b.ii. Forward simulate $\theta_1$ and produce a histogram
+
+```{r}
+theta_1 <- rbeta(1000, alpha, beta)
+hist(theta_1, breaks = 30, main="Approximation of Marginal Prior")
+```
+
+
+## Problem 2
+
+$$
+\begin{align*}
+    &\hat\psi_j \mid \psi_j \sim \;\; indep.\;\; N(\psi_j, \sigma^2_j) \quad j = 1, \dots, 12 \\
+    &\psi_j \mid \psi_0, \sigma_0 \sim \;\; iid \;\; N(\psi_0, \sigma_0^2) \quad j = 1, \dots, 12 \\
+    &\psi_0 \sim N(0, 1000^2) \\
+    &\sigma_0 \sim U(0, 1000) 
+\end{align*}
+$$
+
+where  
+
+- $\psi_0$ and $\sigma_0$ are independent.
+- $\sigma_j,\; j = 1, \dots, 12$ are fixed and known.
+
+
+## a. For each hyperparameter, specify an improper density
+
+### hyperparamters
+
+- $\sigma_0$
+- $\psi_0$
+
+### Improper densities
+
+#### $N(0, 1000^2)$
+
+- The hyperprior of $\psi_0$, $N(0, 1000^2)$, is rather disperse given the variance $1000^2$.
+- Apparently, it approximates $\psi_0 \propto 1 \quad \psi_0 \in \mathbb{R}$, an improper uniform prior on the real line.
+
+#### $U(0, 1000)$
+
+- The hyperprior of $\sigma_0$, $U(0, 1000)$ is rather disperse as its upper bound is rather large.
+- Apparently, it approximates $\sigma_0 \propto 1 \quad \sigma_0 > 0$, an improper uniform prior on the real line.
+
+
+## b. Draw a DAG for the model
+
+![dag image](./dag.png) 
+
+## c. Show the JAGS code
+
+```txt
+model {
+  for (j in 1:length(psihat)) {
+    psihat[j] ~ dnorm(psi[j], 1/(se[j]^2))
+    psi[j] ~ dnorm(psi0, 1/sigmasq0) 
+  }
+
+  psi0 ~ dnorm(0, 0.000001)
+  sigma0 ~ dunif(0, 1000)
+
+  sigmasq0 <- sigma0^2 
+}
+
+```
+
+## d. Set up the rjag model
+
+```{r}
+library("rjags")
+d <- read.table("./Heart Studies.txt")
+colnames(d) <- c("i", "psihat", "se")
+m <- jags.model("./asgn2template.bug", d)
+print(d)
+```
+
+## e. Run the model and retrieve numerical summaries for the posterior $\psi_0$ and $\sigma_0^2$
+
+```{r}
+update(m, 10000)
+x <- coda.samples(m, c("psi0", "sigmasq0"), 100000)
+
+psi0 <- as.matrix(x)[, "psi0"]
+sigmasq0 <- as.matrix(x)[, "sigmasq0"]
+subset(summary(x)$statistics, select = c("Mean", "SD"))
+quantile(psi0, c(0.025, 0.975))
+quantile(sigmasq0, c(0.025, 0.975))
+
+require("lattice")
+densityplot(x[, c("psi0", "sigmasq0")])
+```
+
+### e.i. The posterior numerical summary of $\psi_0$ 
+
+- **Expected Value**: $0.2146998$
+- **Standard Deviation**: $0.1326329$ 
+- **95% Central Interval**: $[-0.03265995 0.49480561]$
+
+
+### e.ii.The posterior numerical summary of $\sigma^2_0$ 
+
+- **Expected Value**: $0.1508600$
+- **Standard Deviation**: $0.1363831$  
+- **95% Central Interval**: $[0.0188346 0.4858067]$
+
+## f. With newly added case-control study
+
+### f.i. Draw the updated DAG
+
+- Since the newly added study are conditionally independent of previous studies give $\psi_0$ and $\sigma_0$, we can modify the DAG as follows:
+
+![DAG with New Study](./dag2.png) 
+
+where
+
+- $\sigma_{13}$: The log-odds standard error of the new study ($\sigma_{13} = 0.4$)
+- $\hat\psi_{13}$: The new estimated logs-odds ratio
+- $\psi_{13}$: The new logs-odds ratio
+
+### f.ii. Modified JAGS Model
+
+```txt
+model {
+  for (j in 1:length(psihat)) {
+    psihat[j] ~ dnorm(psi[j], 1/(se[j]^2))
+    psi[j] ~ dnorm(psi0, 1/sigmasq0) 
+  }
+
+  psi0 ~ dnorm(0, 0.000001)
+  sigma0 ~ dunif(0, 1000)
+  sigmasq0 <- sigma0^2 
+
+  psi_13 ~ dnorm(psi0, 1/sigmasq0)
+  psihat_13 ~ dnorm(psi_13, 6.25)
+}
+```
+
+### f.iii. Retrieve numerical summaries for the posterior $\hat\psi_{13}$
+
+```{r}
+m <- jags.model("./updated_asgn2template.bug", d)
+update(m, 10000)
+x <- coda.samples(m, c("psihat_13"), 100000)
+
+summary(x)$statistics[c("Mean", "SD")]
+psihat_13 <- as.matrix(x)[, "psihat_13"]
+quantile(psihat_13, c(0.025, 0.975))
+```
+ 
+- **Expected Value**: $0.2131864$
+- **Standard Deviation**: $0.5690035$
+- **95% Central Interval**: $[-0.8987115 1.3548126]$
+
+### f.iv. Add an indicator function to JAGS Model
+
+```
+model {
+  for (j in 1:length(psihat)) {
+    psihat[j] ~ dnorm(psi[j], 1/(se[j]^2))
+    psi[j] ~ dnorm(psi0, 1/sigmasq0) 
+  }
+
+  psi0 ~ dnorm(0, 0.000001)
+  sigma0 ~ dunif(0, 1000)
+  sigmasq0 <- sigma0^2 
+
+  psi_13 ~ dnorm(psi0, 1/sigmasq0)
+  psihat_13 ~ dnorm(psi_13, 6.25)
+  ind <- psihat_13 > 0.8
+}
+```
+
+```{r}
+m <- jags.model("./indicator_asgn2template.bug", d)
+update(m, 10000)
+x <- coda.samples(m, c("ind"), 100000)
+summary(x)$statistics["Mean"]
+```
