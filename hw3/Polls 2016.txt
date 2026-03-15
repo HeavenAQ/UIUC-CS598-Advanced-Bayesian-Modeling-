@@ -1,0 +1,13 @@
+# 2016 U.S. presidential election race between H. Clinton and D. Trump
+# National poll results for two-way race, conducted November 3 and later
+# y = percentage of Clinton lead, ME = margin of error
+# From: https://en.wikipedia.org/wiki/Nationwide_opinion_polling_for_the_United_States_presidential_election,_2016
+
+poll        y   ME
+YouGov      4   1.7
+Bloomberg   3   3.5
+ABCWaPo     3   2.5
+Fox         4   2.5
+IBD         1   3.1
+Monmouth    6   3.6
+NBCWSJ      5   2.73

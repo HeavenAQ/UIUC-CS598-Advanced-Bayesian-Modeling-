@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="CS 598: Advanced Bayesian Modeling">
+
+<title>Assignment 3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+
+<header id="title-block-header">
+<h1 class="title">Assignment 3</h1>
+<p class="author">CS 598: Advanced Bayesian Modeling</p>
+
+<p class="date">Spring 2026</p>
+</header>
+
+
+<div class="hidden">
+<p><span class="math display">\[
+\newcommand{\uniformdist}{\operatorname{U}}\
+\newcommand{\betadist}{\operatorname{Beta}}
+\newcommand{\exponentialdist}{\operatorname{Expon}}
+\newcommand{\normaldist}{\operatorname{N}}
+\newcommand{\invgammadist}{\operatorname{Inv-gamma}}
+\newcommand{\Wishartdist}{\operatorname{Wishart}}
+\newcommand{\iid}{\mathrm{iid}}
+\newcommand{\indep}{\mathrm{indep.}}
+\newcommand{\errorterm}{\varepsilon}
+\newcommand{\E}{\operatorname{E}}
+\newcommand{\Var}{\operatorname{var}}
+\]</span></p>
+</div>
+<p>Total: 34&nbsp;points</p>
+<h2 id="problem-1">Problem 1</h2>
+<ol type="a">
+<li>[2&nbsp;points] R script <code>FlintGibbs.R</code> implements a Gibbs sampler for the partially conjugate Flint data model. It is very similar to the example R code in Lesson&nbsp;7.2:&nbsp;Gibbs Sampling. Use the script to simulate from the posterior for&nbsp;<span class="math inline">\(\mu\)</span> and&nbsp;<span class="math inline">\(\sigma^2\)</span>. Then use R function <code>acf</code> (with its default settings) to produce an autocorrelation plot for the successive&nbsp;<span class="math inline">\(\mu\)</span> variates and an autocorrelation plot for the successive&nbsp;<span class="math inline">\(\sigma^2\)</span> variates.</li>
+<li>R script <code>FlintMetropolis.R</code> implements a Metropolis sampler for the same Flint data model. It is very similar to the example R code in Lesson&nbsp;7.3:&nbsp;Metropolis and Metropolis-Hastings.
+<ol type="i">
+<li><p>[1&nbsp;point] Experiment with different settings for the proposal variance <code>rho</code> (by uncommenting its line and changing the value). Find a value of <code>rho</code> that gives an overall (average) acceptance rate of about&nbsp;<span class="math inline">\(0.35\)</span>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> What value of <code>rho</code> did you find?</p>
+<p>(Warning: Using a value of <code>rho</code> that is too large may cause the R code to produce an error, due to numerical problems. Start with smaller values of <code>rho</code>.)</p></li>
+<li><p>[2&nbsp;points] With the value of <code>rho</code> that you found, use the script to simulate from the posterior for&nbsp;<span class="math inline">\(\mu\)</span> and&nbsp;<span class="math inline">\(\sigma^2\)</span>. Then use R function <code>acf</code> to produce an autocorrelation plot for the successive&nbsp;<span class="math inline">\(\mu\)</span> variates and an autocorrelation plot for the successive&nbsp;<span class="math inline">\(\sigma^2\)</span> variates.</p></li>
+</ol></li>
+<li>[1&nbsp;point] Compare the autocorrelation plots from the previous two parts. Which method exhibited faster mixing: the Gibbs sampler or the Metropolis sampler?</li>
+</ol>
+<h2 id="problem-2">Problem 2</h2>
+<p>Use the 2016 US presidential polls data in <code>polls2016.txt</code> to answer the following, running all parts using JAGS and R&nbsp;(<code>rjags</code>). Remember that you will have to create a variable <code>sigma</code> in R to represent the standard deviation of the polls, defined to be half of the margin of error. Refer to Lesson&nbsp;4.2:&nbsp;Normal Hierarchical Model in R/JAGS.</p>
+<ol type="a">
+<li>Use the model in <code>polls20161.bug</code> for the following:
+<ol type="i">
+<li>[2&nbsp;points] Create an initialization list (in R) supporting 4 chains, with a different initialization for each chain. Set initial values for <code>mu</code> to <span class="math inline">\(100\)</span> or <span class="math inline">\(-100\)</span> and values for <code>tau</code> to <span class="math inline">\(100\)</span> or <span class="math inline">\(0.01\)</span>. Then use <code>jags.model</code> to create the JAGS model R object with these initializations. List all of the R code you used.</li>
+<li>[2&nbsp;points] Perform a burn-in of 2500 iterations, then monitor the <code>mu</code> and <code>tau</code> nodes for 5000 iterations (for each chain). List all of the R code you used.</li>
+<li>[3&nbsp;points] For the iterations you monitored, produce trace plots of <code>mu</code> and <code>tau</code>. Do there appear to be any convergence problems? Display the plots and the R code that produced them.</li>
+<li>[2&nbsp;points] For the iterations you monitored, compute Gelman-Rubin statistics (potential scale reduction factors) for <code>mu</code> and <code>tau</code>. Do there appear to be any convergence problems? Show your R code and its output.</li>
+<li>[2&nbsp;points] For the iterations you monitored, display autocorrelation plots for <code>mu</code> and <code>tau</code> for one of the chains. (Hint: For example, to reference the first chain of an <code>mcmc.list</code> object named <code>x</code>, use <code>x[[1]]</code>.) Comment on the apparent speed of mixing.</li>
+<li>[2&nbsp;points] For the iterations you monitored, compute effective sample sizes (for all chains combined) for <code>mu</code> and <code>tau</code>. Would they be considered adequate? Show your R code and its output.</li>
+</ol></li>
+<li>Now consider a new model that uses an almost flat prior for <code>tau</code> on the <strong>log</strong> scale, as follows: Create a new JAGS model by modifying <code>polls20161.bug</code> to eliminate the current prior for <code>tau</code>, create a new parameter <code>logtau</code> with a <span class="math inline">\(\uniformdist(-100,100)\)</span> prior distribution, and define <code>tau</code> to be equal to <code>exp(logtau)</code>.
+<ol type="i">
+<li>[2&nbsp;points] Display all of the code for your new JAGS model.</li>
+<li>[2&nbsp;points] Create an initialization list (in R) supporting 4 chains, with a different initialization for each chain. Set initial values for <code>mu</code> to <span class="math inline">\(100\)</span> or <span class="math inline">\(-100\)</span> and values for <code>logtau</code> to <span class="math inline">\(\log 100\)</span> or <span class="math inline">\(\log 0.01\)</span>. Then use <code>jags.model</code> to create the JAGS model R object with these initializations. List all of the R code you used.</li>
+<li>[2&nbsp;points] Perform a burn-in of 2500 iterations, then monitor the <code>mu</code> and <code>tau</code> nodes for 5000 iterations (for each chain). List all of the R code you used.</li>
+<li>[3&nbsp;points] For the iterations you monitored, produce trace plots of <code>mu</code> and <code>tau</code>. Do there appear to be any convergence problems? Display the plots and the R code that produced them.</li>
+<li>[2&nbsp;points] For the iterations you monitored, compute Gelman-Rubin statistics (potential scale reduction factors) for <code>mu</code> and <code>tau</code>. Do there appear to be any convergence problems? Show your R code and its output.</li>
+<li>[2&nbsp;points] For the iterations you monitored, display autocorrelation plots for <code>mu</code> and <code>tau</code> for one of the chains.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Comment on the apparent speed of mixing.</li>
+<li>[2&nbsp;points] What is wrong with this model that could explain any problems you noted? (Hint: What would happen if you used an improper flat prior on&nbsp;<span class="math inline">\(\log\tau\)</span>?)</li>
+</ol></li>
+</ol>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>This is approximately the “optimal” acceptance rate for a two-dimensional parameter. See Roberts, G.&nbsp;O., &amp; Rosenthal, J.&nbsp;S. (2001). Optimal scaling for various Metropolis-Hastings algorithms. <em>Statistical Science</em>, <em>16</em>, 351-367.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Ordinarily, autocorrelation plots are not used for chains that have not converged, but you are asked to produce them here even if there was no convergence.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+
+
+
+
+</body></html>

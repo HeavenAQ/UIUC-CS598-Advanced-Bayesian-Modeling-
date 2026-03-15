@@ -1,0 +1,191 @@
+---
+format: 
+  pdf:
+    documentclass: scrartcl
+    papersize: letter
+    mainfont: "Times New Roman"
+---
+
+# Assignment 3
+
+## Problem 1
+
+### a. Simulates from the posteriors for $\mu$ and $\sigma^2$ and produce autocorrelation plots for their respective successive variates
+
+```{r}
+source("./Flint Gibbs.r", echo = FALSE)
+acf(mu.sim)
+acf(sigma.2.sim)
+```
+
+### b. Metropolis sampler
+
+#### i. Find a value of `rho` that gives an average acceptance rate of about $0.35$
+
+- With the `rho = 0.0308` the acceptance rate is around $0.35$
+
+```{r}
+rho <- 0.0308
+source("./Flint Metropolis.r", echo = FALSE)
+mean(accept.prob)
+```
+
+#### ii. Plot the successive autocorrelation plots for $\mu$ and $\sigma^2$
+
+```{r}
+acf(mu.sim)
+acf(sigma.2.sim)
+```
+
+### c. Which method exhibited faster mixing
+
+- **The Gibbs Sampler** exhibited faster mixing as the autocorrelation drops within the significance bounds faster compared to the Metropolis Sampler.
+
+
+## Problem 2
+
+### a. Use the model in `polls20161.bug` for the following questions
+
+#### i. 
+
+```{r}
+d <- read.table("./Polls 2016.txt", header=TRUE)
+
+# variable init
+d$sigma <- d$ME / 2
+
+# JAGS
+library(rjags)
+initial.vals <- list(
+    list(mu=100, tau=0.01),
+    list(mu=100, tau=100),
+    list(mu=-100, tau=0.01),
+    list(mu=-100, tau=100)
+)
+
+ml <- jags.model(
+    "./Polls 2016.bug", 
+    d, 
+    initial.vals, 
+    n.chains=4, 
+    n.adapt=1000
+)
+```
+
+#### ii. 
+
+```{r}
+update(ml, 2500) # burn-in
+
+x <- coda.samples(ml, c("mu", "tau"), n.iter=5000)
+```
+
+#### iii.
+
+- Based on the trace of `mu` and `tau`, there is no convergence problem.
+
+```{r}
+plot(x, smooth=FALSE)
+```
+
+#### iv.
+
+- Based on the result of the Gelman-Rubin statistics, both $\mu$ and $\tau$ have the point estimation around $1.00$, which indicates a close-to-perfect convergence.
+
+```{r}
+gelman.diag(x, autoburnin=FALSE)
+```
+
+
+#### v. 
+
+```{r}
+# extract the first chain from x
+first <- x[[1]]
+autocorr.plot(first)
+```
+
+#### vi.
+
+- Both are considered adequate as both of them exceed the suggested minimum value of $400$
+
+```{r}
+effectiveSize(x)
+```
+
+### b. A new model that uses an almost flat prior for `tau` on the **log** scale 
+
+#### i. 
+
+```r
+model {
+
+  for (j in 1:length(y)) {
+    y[j] ~ dnorm(theta[j], 1/sigma[j]^2)
+    theta[j] ~ dnorm(mu, 1/tau^2)
+  }
+
+  mu ~ dunif(-1000,1000)
+  logtau ~ dunif(-100,100)
+  tau <- exp(logtau)
+
+}
+```
+
+#### ii.
+
+```{r}
+initial.vals <- list(
+    list(mu=100, logtau=log(100)),
+    list(mu=100, logtau=log(0.01)),
+    list(mu=-100, logtau=log(100)),
+    list(mu=-100, logtau=log(0.01))
+)
+
+ml <- jags.model(
+    "./Polls 2016_2.bug",
+    d, 
+    initial.vals, 
+    n.chains=4, 
+    n.adapt=1000
+)
+```
+
+
+#### iii.
+
+```{r}
+update(ml, 2500) # burn-in
+x <- coda.samples(ml, c("mu", "tau"), n.iter=5000)
+```
+
+
+#### iv.
+
+- Based on the trace of `mu` and `tau`, there is a convergence problem as the mixing of both variables are poor.
+    - `mu`: The chains remain in separate regions.
+    - `tau`: Most values are close to 0, with occasional spikes.  
+
+```{r}
+plot(x, smooth=FALSE)
+```
+
+#### v.
+
+- Based on the result of the Gelman-Rubin statistics, both $\mu$ and $\tau$ have the point estimation greater than $1.1$, which indicates poor convergence.
+
+```{r}
+gelman.diag(x, autoburnin=FALSE)
+```
+
+#### vi.
+
+- Based on the autocorrelation plots, the speed of mixing of both `mu` and `tau` is rather slow.
+
+```{r}
+autocorr.plot(x[[1]])
+```
+
+#### vii.
+
+- The problem with this model is that using an imporper flat prior on $log \tau$ implies $p(\tau) \propto \frac{1}{\tau}$, which is itself improper. This can lead to an improper posterior, which is not a valid probability. Such a model can cause poor convergence behavior like the statistical results above.
