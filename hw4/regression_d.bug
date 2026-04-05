@@ -1,0 +1,16 @@
+model {
+    for (i in 1:length(Year)) {
+        logC[i] ~ dnorm(beta_1 + beta_2 * (Year[i] - AvgYear[i]), tau)
+    }
+    beta_1 ~ dnorm(0, 1/1000000)
+    beta_2 ~ dnorm(0, 1/1000000)
+    tau ~ dgamma(0.001, 0.001)
+    sigma.2 <- 1 / tau 
+
+    mu_2026 <- beta_1 + beta_2 * (2026 - AvgYear[1])
+    logC_2026 ~ dnorm(mu_2026, tau)
+    C_2026 <- exp(logC_2026)
+    C_2026_billions <- C_2026 / 1000000000
+
+    invention_year <- AvgYear[1] - beta_1 / beta_2
+}

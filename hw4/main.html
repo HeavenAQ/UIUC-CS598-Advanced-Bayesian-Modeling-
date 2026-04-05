@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>main</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="main_files/libs/clipboard/clipboard.min.js"></script>
+<script src="main_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="main_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="main_files/libs/quarto-html/popper.min.js"></script>
+<script src="main_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="main_files/libs/quarto-html/anchor.min.js"></script>
+<link href="main_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="main_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="main_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="main_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="main_files/libs/bootstrap/bootstrap-138a6193a3bd40baf1e627da441a4734.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="assignment-4" class="level1">
+<h1>Assignment 4</h1>
+<section id="problem" class="level2">
+<h2 class="anchored" data-anchor-id="problem">Problem</h2>
+<p>According to one version of Moore’s law, the number of transistors on a state-of-the-art computer microprocessor roughly doubles every two years:</p>
+<p><span class="math display">\[
+C \approx \gamma 2^{A/2}
+\]</span></p>
+<p>where</p>
+<ul>
+<li><span class="math inline">\(A\)</span>: the year number in which a microprocessor is introduced</li>
+<li><span class="math inline">\(C\)</span>: the transistor count of the microprocessor</li>
+<li><span class="math inline">\(\gamma\)</span>: a positive constant</li>
+</ul>
+<p>Consider the <strong>natural logarithm</strong> of the transistor count: <span class="math inline">\(\log C\)</span></p>
+<hr>
+<section id="a.-show-that-log-c-is-roughly-a-simple-linear-regression-and-derive-the-coefficient-of-a" class="level3">
+<h3 class="anchored" data-anchor-id="a.-show-that-log-c-is-roughly-a-simple-linear-regression-and-derive-the-coefficient-of-a">a. Show that <span class="math inline">\(\log C\)</span> is roughly a simple linear regression and derive the coefficient of A</h3>
+<p><span class="math display">\[
+\begin{aligned}
+    \log C &amp;\approx \log \gamma + \frac{A}{2} \log 2 \\
+           &amp;\approx \log \gamma + A \frac{1}{2} \log 2
+\end{aligned}
+\]</span></p>
+<p>Given that the form of a simple linear regression is <span class="math inline">\(y = \beta_1 + x \beta_2\)</span> where <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> are the parameters, <span class="math inline">\(\log C\)</span> is roughly a simple linear regression with:</p>
+<ul>
+<li><span class="math inline">\(y = \log C\)</span></li>
+<li><span class="math inline">\(x = A\)</span></li>
+<li><span class="math inline">\(\beta_1 = \log \gamma\)</span></li>
+<li><span class="math inline">\(\beta_2 = \frac{1}{2} \log 2 = 0.3465736\)</span> <strong>(the coefficient of A)</strong></li>
+</ul>
+</section>
+<section id="b.-plot-the-data-points-as-log-transistor-count-versus-year" class="level3">
+<h3 class="anchored" data-anchor-id="b.-plot-the-data-points-as-log-transistor-count-versus-year">b. Plot the data points as log transistor count versus year</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>transistor <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"./Moores Law Data.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>transistor<span class="sc">$</span>logC <span class="ot">&lt;-</span> <span class="fu">log</span>(transistor<span class="sc">$</span>TransistorCount)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> transistor<span class="sc">$</span>Year, </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> transistor<span class="sc">$</span>logC, </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"log(Transistor Count) vs. Year"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"log(Transistor Count)"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Year"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="c.-consider-a-normal-theory-simple-linear-regression-model" class="level3">
+<h3 class="anchored" data-anchor-id="c.-consider-a-normal-theory-simple-linear-regression-model">c.&nbsp;Consider a normal-theory simple linear regression model</h3>
+<p><span class="math display">\[
+\log C_i \mid \beta, \sigma^2 A_i \sim indep.\;\; N(\beta_1 + \beta_2 (A_i - \bar A), \sigma^2)\quad i = 1,\dots, 235
+\]</span></p>
+<p>where</p>
+<ul>
+<li><span class="math inline">\(\beta_1, \beta_2 \sim\quad iid. \; N(0, 1000^2)\)</span></li>
+<li><span class="math inline">\(\sigma^2 \sim \text{Inv-gamma}(0.001, 0.001)\)</span></li>
+</ul>
+<section id="i.-list-an-appropriate-jags-model" class="level4">
+<h4 class="anchored" data-anchor-id="i.-list-an-appropriate-jags-model">i. List an appropriate JAGS model</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Year)) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        logC[i] <span class="sc">~</span> <span class="fu">dnorm</span>(beta_1 <span class="sc">+</span> beta_2 <span class="sc">*</span> (Year[i] <span class="sc">-</span> AvgYear[i]), tau)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    beta_1 <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">1000000</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    beta_2 <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">1000000</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    tau <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="fl">0.001</span>, <span class="fl">0.001</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    sigma<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> tau </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+<p>Now, run the model with overdispersed starting points, check convergence, and monitor <span class="math inline">\(\beta_1\)</span>, <span class="math inline">\(\beta_2\)</span>, and <span class="math inline">\(\sigma^2\)</span> for at least <span class="math inline">\(2000\)</span> iterations after burn-in.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>transistor<span class="sc">$</span>AvgYear <span class="ot">=</span> <span class="fu">mean</span>(transistor<span class="sc">$</span>Year)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>init.vals <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">beta_1=</span><span class="dv">10000</span>, <span class="at">beta_2=</span><span class="dv">10000</span>, <span class="at">tau=</span><span class="fl">0.00001</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">beta_1=</span><span class="sc">-</span><span class="dv">10000</span>, <span class="at">beta_2=</span><span class="sc">-</span><span class="dv">10000</span>, <span class="at">tau=</span><span class="fl">0.00001</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">beta_1=</span><span class="dv">10000</span>, <span class="at">beta_2=</span><span class="dv">10000</span>, <span class="at">tau=</span><span class="fl">0.01</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">beta_1=</span><span class="sc">-</span><span class="dv">10000</span>, <span class="at">beta_2=</span><span class="sc">-</span><span class="dv">10000</span>, <span class="at">tau=</span><span class="fl">0.01</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rjags)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: coda</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Linked to JAGS 4.3.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loaded modules: basemod,bugs</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ml <span class="ot">&lt;-</span> <span class="fu">jags.model</span>(<span class="st">"./regression.bug"</span>, transistor, init.vals, <span class="at">n.chains=</span><span class="dv">4</span>, <span class="at">n.adapt=</span><span class="dv">1000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in jags.model("./regression.bug", transistor, init.vals, n.chains = 4,
+: Unused variable "Processor" in data</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in jags.model("./regression.bug", transistor, init.vals, n.chains = 4,
+: Unused variable "TransistorCount" in data</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 235
+   Unobserved stochastic nodes: 3
+   Total graph size: 876
+
+Initializing model</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">update</span>(ml, <span class="dv">2500</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">coda.samples</span>(ml, <span class="fu">c</span>(<span class="st">"beta_1"</span>, <span class="st">"beta_2"</span>, <span class="st">"sigma.2"</span>), <span class="at">n.iter=</span><span class="dv">5000</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># verify convergence</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">gelman.diag</span>(x, <span class="at">autoburnin=</span><span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Potential scale reduction factors:
+
+        Point est. Upper C.I.
+beta_1           1          1
+beta_2           1          1
+sigma.2          1          1
+
+Multivariate psrf
+
+1</code></pre>
+</div>
+</div>
+<ul>
+<li>As shown with the Gelman-Rubin convergence diagnostic, PSRF values equal to 1 for all parameters, indicating that MCMC chains have converged.</li>
+</ul>
+</section>
+<section id="ii.-list-summary-for-beta_1-beta_2-and-sigma2" class="level4">
+<h4 class="anchored" data-anchor-id="ii.-list-summary-for-beta_1-beta_2-and-sigma2">ii. List summary for <span class="math inline">\(\beta_1\)</span>, <span class="math inline">\(\beta_2\)</span>, and <span class="math inline">\(\sigma^2\)</span></h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Iterations = 2501:7500
+Thinning interval = 1 
+Number of chains = 4 
+Sample size per chain = 5000 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+           Mean      SD  Naive SE Time-series SE
+beta_1  18.3962 0.07322 5.177e-04      5.174e-04
+beta_2   0.3327 0.00491 3.472e-05      3.472e-05
+sigma.2  1.2466 0.11646 8.235e-04      8.295e-04
+
+2. Quantiles for each variable:
+
+           2.5%     25%     50%    75%   97.5%
+beta_1  18.2515 18.3471 18.3965 18.445 18.5406
+beta_2   0.3231  0.3294  0.3327  0.336  0.3423
+sigma.2  1.0380  1.1650  1.2397  1.321  1.4985</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="iii.-give-the-approximate-posterior-mean-and-95-central-posterior-interval-for-the-slope" class="level4">
+<h4 class="anchored" data-anchor-id="iii.-give-the-approximate-posterior-mean-and-95-central-posterior-interval-for-the-slope">iii. Give the approximate posterior <strong>mean</strong> and 95% <strong>central posterior interval</strong> for the slope</h4>
+<ul>
+<li>Slope is the statistics related to <span class="math inline">\(\beta_2\)</span></li>
+</ul>
+<section id="slope-mean" class="level5">
+<h5 class="anchored" data-anchor-id="slope-mean">Slope Mean</h5>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(x)<span class="sc">$</span>statistics[<span class="st">"beta_2"</span>, <span class="st">"Mean"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3327167</code></pre>
+</div>
+</div>
+</section>
+<section id="slope-95-central-posterior-interval" class="level5">
+<h5 class="anchored" data-anchor-id="slope-95-central-posterior-interval">Slope 95% Central Posterior Interval</h5>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x_mat <span class="ot">=</span> <span class="fu">as.matrix</span>(x)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(x_mat[,<span class="st">"beta_2"</span>], <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     2.5%     97.5% 
+0.3230669 0.3423283 </code></pre>
+</div>
+</div>
+<ul>
+<li>No, the coefficient of A does not fall within the interval. It goes slightly beyond the upper end, which suggests that the estimated growth in transistor count is slightly lower than Moore’s law.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="iv.-give-the-approximate-posterior-mean-and-95-central-posterior-interval-for-the-error-variance" class="level4">
+<h4 class="anchored" data-anchor-id="iv.-give-the-approximate-posterior-mean-and-95-central-posterior-interval-for-the-error-variance">iv. Give the approximate posterior <strong>mean</strong> and 95% <strong>central posterior interval</strong> for the error variance</h4>
+<section id="slope-mean-1" class="level5">
+<h5 class="anchored" data-anchor-id="slope-mean-1">Slope Mean</h5>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(x)<span class="sc">$</span>statistics[<span class="st">"sigma.2"</span>, <span class="st">"Mean"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.246627</code></pre>
+</div>
+</div>
+</section>
+<section id="slope-95-central-posterior-interval-1" class="level5">
+<h5 class="anchored" data-anchor-id="slope-95-central-posterior-interval-1">Slope 95% Central Posterior Interval</h5>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(x_mat[,<span class="st">"sigma.2"</span>], <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    2.5%    97.5% 
+1.038010 1.498493 </code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="d.-predict-the-transistor-count" class="level3">
+<h3 class="anchored" data-anchor-id="d.-predict-the-transistor-count">d.&nbsp;Predict the transistor count</h3>
+<section id="i.-update-jags-model-to-answer-the-subsequent-questions" class="level4">
+<h4 class="anchored" data-anchor-id="i.-update-jags-model-to-answer-the-subsequent-questions">i. Update JAGS model to answer the subsequent questions</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>model {</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(Year)) {</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        logC[i] <span class="sc">~</span> <span class="fu">dnorm</span>(beta_1 <span class="sc">+</span> beta_2 <span class="sc">*</span> (Year[i] <span class="sc">-</span> AvgYear[i]), tau)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    beta_1 <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">1000000</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    beta_2 <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">1000000</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    tau <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="fl">0.001</span>, <span class="fl">0.001</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    sigma<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> tau </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    mu_2026 <span class="ot">&lt;-</span> beta_1 <span class="sc">+</span> beta_2 <span class="sc">*</span> (<span class="dv">2026</span> <span class="sc">-</span> AvgYear[<span class="dv">1</span>])</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    logC_2026 <span class="sc">~</span> <span class="fu">dnorm</span>(mu_2026, tau)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    C_2026 <span class="ot">&lt;-</span> <span class="fu">exp</span>(logC_2026)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    C_2026_billions <span class="ot">&lt;-</span> C_2026 <span class="sc">/</span> <span class="dv">1000000000</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    invention_year <span class="ot">&lt;-</span> AvgYear[<span class="dv">1</span>] <span class="sc">-</span> beta_1 <span class="sc">/</span> beta_2</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ml <span class="ot">&lt;-</span> <span class="fu">jags.model</span>(<span class="st">"./regression_d.bug"</span>, transistor, init.vals, <span class="at">n.chains=</span><span class="dv">4</span>, <span class="at">n.adapt=</span><span class="dv">1000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in jags.model("./regression_d.bug", transistor, init.vals, n.chains =
+4, : Unused variable "Processor" in data</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in jags.model("./regression_d.bug", transistor, init.vals, n.chains =
+4, : Unused variable "TransistorCount" in data</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 235
+   Unobserved stochastic nodes: 4
+   Total graph size: 886
+
+Initializing model</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">update</span>(ml, <span class="dv">2500</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">coda.samples</span>(ml, <span class="fu">c</span>(<span class="st">"C_2026_billions"</span>, <span class="st">"invention_year"</span>), <span class="at">n.iter=</span><span class="dv">5000</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># verify convergence</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">gelman.diag</span>(x, <span class="at">autoburnin=</span><span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Potential scale reduction factors:
+
+                Point est. Upper C.I.
+C_2026_billions          1          1
+invention_year           1          1
+
+Multivariate psrf
+
+1</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="ii.-list-summary" class="level4">
+<h4 class="anchored" data-anchor-id="ii.-list-summary">ii. List summary</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Iterations = 2501:7500
+Thinning interval = 1 
+Number of chains = 4 
+Sample size per chain = 5000 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+                  Mean       SD Naive SE Time-series SE
+C_2026_billions  234.1 364.7763 2.579358       2.570906
+invention_year  1949.2   0.8477 0.005994       0.005989
+
+2. Quantiles for each variable:
+
+                   2.5%     25%    50%    75% 97.5%
+C_2026_billions   13.96   57.49  124.8  265.7  1122
+invention_year  1947.52 1948.68 1949.3 1949.8  1951</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="iii.-give-an-approximate-95-central-posterior-predictive-interval-for-the-transistor-count" class="level4">
+<h4 class="anchored" data-anchor-id="iii.-give-an-approximate-95-central-posterior-predictive-interval-for-the-transistor-count">iii. Give an approximate 95% central posterior predictive interval for the transistor count</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>x_mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(x)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(x_mat[,<span class="st">"C_2026_billions"</span>], <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      2.5%      97.5% 
+  13.96303 1121.90929 </code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="iv.-explain-the-following-formula-and-give-the-95-central-posterior-interval" class="level4">
+<h4 class="anchored" data-anchor-id="iv.-explain-the-following-formula-and-give-the-95-central-posterior-interval">iv. Explain the following formula and give the 95% central posterior interval</h4>
+<p><span class="math display">\[
+\bar A - \frac{\beta_1}{\beta_2}
+\]</span></p>
+<section id="proof" class="level5">
+<h5 class="anchored" data-anchor-id="proof">Proof</h5>
+<ul>
+<li>When the transistor was invented, <span class="math inline">\(C = 1\)</span>, which leads to <span class="math inline">\(\log C = 0\)</span></li>
+<li>Therefore,</li>
+</ul>
+<p><span class="math display">\[
+\begin{align*}
+&amp;\beta_1 + \beta_2 * (A - \bar A) = 0 \\
+&amp;\beta_2 A = \beta_2 \bar A - \beta_1 \\
+&amp;A = \bar A - \frac{\beta_1}{\beta_2}
+\end{align*}
+\]</span></p>
+</section>
+<section id="central-posterior-interval" class="level5">
+<h5 class="anchored" data-anchor-id="central-posterior-interval">95% central posterior interval</h5>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(x_mat[,<span class="st">"invention_year"</span>], <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    2.5%    97.5% 
+1947.521 1950.857 </code></pre>
+</div>
+</div>
+</section>
+<section id="actual-year" class="level5">
+<h5 class="anchored" data-anchor-id="actual-year">Actual year</h5>
+<ul>
+<li>Transistor was invented in <a href="https://en.wikipedia.org/wiki/History_of_the_transistor">1947</a>, which falls within the 95% central posterior interval</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="e.-check-for-outliers" class="level3">
+<h3 class="anchored" data-anchor-id="e.-check-for-outliers">e. Check for outliers</h3>
+<p><span class="math display">\[
+T(y, X, \theta) = \max_i |\epsilon_i / \sigma|
+\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>ml <span class="ot">&lt;-</span> <span class="fu">jags.model</span>(<span class="st">"./regression.bug"</span>, transistor, init.vals, <span class="at">n.chains=</span><span class="dv">4</span>, <span class="at">n.adapt=</span><span class="dv">1000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in jags.model("./regression.bug", transistor, init.vals, n.chains = 4,
+: Unused variable "Processor" in data</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in jags.model("./regression.bug", transistor, init.vals, n.chains = 4,
+: Unused variable "TransistorCount" in data</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 235
+   Unobserved stochastic nodes: 3
+   Total graph size: 876
+
+Initializing model</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">update</span>(ml, <span class="dv">2500</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">coda.samples</span>(ml, <span class="fu">c</span>(<span class="st">"beta_1"</span>, <span class="st">"beta_2"</span>, <span class="st">"sigma.2"</span>), <span class="at">n.iter=</span><span class="dv">5000</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>x_mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="i.-compute-simulated-standardized-error-vectors-epsilon-sigma" class="level4">
+<h4 class="anchored" data-anchor-id="i.-compute-simulated-standardized-error-vectors-epsilon-sigma">i. Compute simulated standardized error vectors <span class="math inline">\(\epsilon / \sigma\)</span></h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(x_mat)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>K <span class="ot">&lt;-</span> <span class="fu">length</span>(transistor<span class="sc">$</span>logC)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>eps_std <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> n, <span class="at">ncol =</span> K)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    beta1 <span class="ot">&lt;-</span> x_mat[s, <span class="st">"beta_1"</span>]</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    beta2 <span class="ot">&lt;-</span> x_mat[s, <span class="st">"beta_2"</span>]</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(x_mat[s, <span class="st">"sigma.2"</span>])</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    mu <span class="ot">&lt;-</span> beta1 <span class="sc">+</span> beta2 <span class="sc">*</span> (transistor<span class="sc">$</span>Year <span class="sc">-</span> transistor<span class="sc">$</span>AvgYear)</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    eps <span class="ot">&lt;-</span> transistor<span class="sc">$</span>logC <span class="sc">-</span> mu</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    eps_std[s,] <span class="ot">&lt;-</span> eps <span class="sc">/</span> sigma</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+<section id="ii.-compute-simulated-replicate-standardized-errors-epsilonrep-sigma" class="level4">
+<h4 class="anchored" data-anchor-id="ii.-compute-simulated-replicate-standardized-errors-epsilonrep-sigma">ii. Compute simulated replicate standardized errors <span class="math inline">\(\epsilon^{rep} / \sigma\)</span></h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>eps_rep_std <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> n, <span class="at">ncol =</span> K)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    beta1 <span class="ot">&lt;-</span> x_mat[s, <span class="st">"beta_1"</span>]</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    beta2 <span class="ot">&lt;-</span> x_mat[s, <span class="st">"beta_2"</span>]</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(x_mat[s, <span class="st">"sigma.2"</span>])</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    mu <span class="ot">&lt;-</span> beta1 <span class="sc">+</span> beta2 <span class="sc">*</span> (transistor<span class="sc">$</span>Year <span class="sc">-</span> transistor<span class="sc">$</span>AvgYear)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    y_rep <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(K, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    eps_rep_std[s,] <span class="ot">&lt;-</span> (y_rep <span class="sc">-</span> mu) <span class="sc">/</span> sigma</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+<section id="iii.-compute-ty-x-theta-and-tyrep-x-theta" class="level4">
+<h4 class="anchored" data-anchor-id="iii.-compute-ty-x-theta-and-tyrep-x-theta">iii. Compute <span class="math inline">\(T(y, X, \theta)\)</span> and <span class="math inline">\(T(y^{rep}, X, \theta)\)</span></h4>
+<section id="ty-x-theta" class="level5">
+<h5 class="anchored" data-anchor-id="ty-x-theta"><span class="math inline">\(T(y, X, \theta)\)</span></h5>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="fu">abs</span>(eps_std), <span class="dv">1</span>, max)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="tyrep-x-theta" class="level5">
+<h5 class="anchored" data-anchor-id="tyrep-x-theta"><span class="math inline">\(T(y^{rep}, X, \theta)\)</span></h5>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>T_rep <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="fu">abs</span>(eps_rep_std), <span class="dv">1</span>, max)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="iv.-plot-trep-vs-t" class="level4">
+<h4 class="anchored" data-anchor-id="iv.-plot-trep-vs-t">iv. Plot <span class="math inline">\(T^{rep}\)</span> vs <span class="math inline">\(T\)</span></h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    T, </span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    T_rep,</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"T(y, X, theta)"</span>,</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"T(y_rep, X, theta)"</span>,</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Posterior Predictive Check"</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="main_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="calculate-the-p-value" class="level4">
+<h4 class="anchored" data-anchor-id="calculate-the-p-value">Calculate the p-value</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(T_rep <span class="sc">&gt;=</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5e-05</code></pre>
+</div>
+</div>
+<ul>
+<li>As the <span class="math inline">\(\text{p-value}\)</span> equals <span class="math inline">\(0\)</span>, the observed extremes are always greater than or equal to the posterior model extremes. Therefore, we can infer that there must be an outlier in the observed data.</li>
+</ul>
+</section>
+<section id="name-the-microprocessor-that-appears-to-be-the-most-extreme-outlier" class="level4">
+<h4 class="anchored" data-anchor-id="name-the-microprocessor-that-appears-to-be-the-most-extreme-outlier">Name the microprocessor that appears to be the most extreme outlier</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>x_stats <span class="ot">=</span> <span class="fu">summary</span>(x)<span class="sc">$</span>statistics</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>beta1_hat <span class="ot">&lt;-</span> x_stats[<span class="st">"beta_1"</span>, <span class="st">"Mean"</span>]</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>beta2_hat <span class="ot">&lt;-</span> x_stats[<span class="st">"beta_2"</span>, <span class="st">"Mean"</span>]</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>sigma_hat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(x_stats[<span class="st">"sigma.2"</span>, <span class="st">"Mean"</span>])</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>mu_hat <span class="ot">&lt;-</span> beta1_hat <span class="sc">+</span> beta2_hat <span class="sc">*</span> (transistor<span class="sc">$</span>Year <span class="sc">-</span> transistor<span class="sc">$</span>AvgYear)</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>std_resid <span class="ot">&lt;-</span> <span class="fu">abs</span>((transistor<span class="sc">$</span>logC <span class="sc">-</span> mu_hat) <span class="sc">/</span> sigma_hat)</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>transistor[<span class="fu">which.max</span>(std_resid), <span class="st">"Processor"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "F21"</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
